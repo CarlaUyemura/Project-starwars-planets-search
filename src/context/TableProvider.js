@@ -15,8 +15,16 @@ function TableProvider({ children }) {
     requestApi();
   }, []);
 
+  const handleName = (target) => {
+    const filterByName = {
+      name: target,
+    };
+    console.log(filterByName);
+    return filterByName;
+  };
+
   return (
-    <TableContext.Provider value={ { result } }>
+    <TableContext.Provider value={ { result, handleName } }>
       {children}
     </TableContext.Provider>
   );
