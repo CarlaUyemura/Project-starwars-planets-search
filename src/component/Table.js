@@ -1,9 +1,35 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import TableContext from '../context/TableContext';
 import Form from './Form';
 
 function Table() {
-  const { result, filterByName } = useContext(TableContext);
+  const { result, inputs, setResult, setInputs } = useContext(TableContext);
+
+  const filterNumber = () => {
+    const { btnClick, column, comparison, value } = inputs;
+    console.log(column, comparison, value);
+    if (btnClick && comparison === 'maior que') {
+      const newResult = result.filter((e) => Number(e[column]) > Number(value));
+      setResult(newResult);
+    }
+    if (btnClick && comparison === 'menor que') {
+      const newResult = result.filter((e) => Number(e[column]) < Number(value));
+      setResult(newResult);
+    }
+    if (btnClick && comparison === 'igual a') {
+      const newResult = result.filter((e) => e[column] === value);
+      setResult(newResult);
+    }
+    setInputs({
+      ...inputs,
+      btnClick: false,
+    });
+    return result;
+  };
+
+  useEffect(() => {
+    filterNumber();
+  }, [inputs.btnClick]);
 
   return (
     <div>
@@ -29,7 +55,7 @@ function Table() {
         </thead>
         <tbody>
           {
-            result.filter((e) => e.name.includes(filterByName.name)).map((planet) => (
+            result.map((planet) => (
               <tr key={ planet.name }>
                 <td>{planet.name}</td>
                 <td>{planet.rotation_period}</td>
