@@ -1,21 +1,14 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import TableContext from '../context/TableContext';
+import Form from './Form';
 
 function Table() {
-  const { result, handleName } = useContext(TableContext);
-  const [name, setName] = useState('');
-
-  handleName(name);
+  const { result, filterByName } = useContext(TableContext);
 
   return (
     <div>
+      <Form />
       Table
-      <input
-        type="text"
-        data-testid="name-filter"
-        placeholder="Planet"
-        onChange={ ({ target }) => setName(target.value) }
-      />
       <table>
         <thead>
           <tr>
@@ -36,7 +29,7 @@ function Table() {
         </thead>
         <tbody>
           {
-            result.filter((e) => e.name.includes(name)).map((planet) => (
+            result.filter((e) => e.name.includes(filterByName.name)).map((planet) => (
               <tr key={ planet.name }>
                 <td>{planet.name}</td>
                 <td>{planet.rotation_period}</td>

@@ -5,6 +5,7 @@ import apiPlanets from '../service/apiPlanets';
 
 function TableProvider({ children }) {
   const [result, setResult] = useState([]);
+  const [filterByName, setFilterByName] = useState({ name: '' });
 
   const requestApi = async () => {
     const request = await apiPlanets();
@@ -16,15 +17,14 @@ function TableProvider({ children }) {
   }, []);
 
   const handleName = (target) => {
-    const filterByName = {
+    setFilterByName({
       name: target,
-    };
-    console.log(filterByName);
-    return filterByName;
+    });
+    console.log(target);
   };
 
   return (
-    <TableContext.Provider value={ { result, handleName } }>
+    <TableContext.Provider value={ { result, handleName, filterByName } }>
       {children}
     </TableContext.Provider>
   );
