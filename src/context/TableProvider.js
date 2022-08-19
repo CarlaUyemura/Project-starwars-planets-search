@@ -13,6 +13,9 @@ function TableProvider({ children }) {
     btnClick: false,
   });
   const [filterByNumericValues, setFilterByNumericValues] = useState([]);
+  const [columnOption, setColumnOption] = useState([
+    'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
+
   const requestApi = async () => {
     const request = await apiPlanets();
     setResult(request);
@@ -61,6 +64,9 @@ function TableProvider({ children }) {
         inputs,
         setInputs,
         setResult,
+        columnOption,
+        setColumnOption,
+        filterByNumericValues,
       } }
     >
       {children}

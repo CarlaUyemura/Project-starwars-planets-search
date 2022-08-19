@@ -7,7 +7,18 @@ function Form() {
     filterSelect,
     inputs,
     handleChanged,
+    columnOption,
+    setColumnOption,
   } = useContext(TableContext);
+
+  const filterColumn = () => {
+    const newColumn = columnOption
+      .filter((item) => inputs.column !== item);
+
+    setColumnOption(
+      newColumn,
+    );
+  };
 
   const { column, comparison, value } = inputs;
 
@@ -27,11 +38,13 @@ function Form() {
           name="column"
         >
           Coluna
-          <option value="population">population</option>
+          { columnOption
+            .map((e, i) => <option key={ i } value={ e }>{e}</option>) }
+          {/* <option value="population">population</option>
           <option value="orbital_period">orbital_period</option>
           <option value="diameter">diameter</option>
           <option value="rotation_period">rotation_period</option>
-          <option value="surface_water">surface_water</option>
+          <option value="surface_water">surface_water</option> */}
         </select>
         <select
           data-testid="comparison-filter"
@@ -54,7 +67,11 @@ function Form() {
         />
         <button
           type="button"
-          onClick={ () => filterSelect() }
+          id={ column }
+          onClick={ () => {
+            filterSelect();
+            filterColumn();
+          } }
           data-testid="button-filter"
         >
           Filtrar
