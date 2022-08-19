@@ -6,10 +6,10 @@ import TableProvider from './context/TableProvider';
 function App() {
   return (
     <TableProvider>
-      <span>
-        Hello
-        <Table />
-      </span>
+      <h1>
+        STAR WARS
+      </h1>
+      <Table />
     </TableProvider>
   );
 }

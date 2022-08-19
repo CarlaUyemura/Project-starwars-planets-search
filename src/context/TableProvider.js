@@ -12,6 +12,7 @@ function TableProvider({ children }) {
     value: 0,
     btnClick: false,
   });
+  const [filterByNumericValues, setFilterByNumericValues] = useState([]);
   const requestApi = async () => {
     const request = await apiPlanets();
     setResult(request);
@@ -43,6 +44,10 @@ function TableProvider({ children }) {
       ...inputs,
       btnClick: true,
     });
+    setFilterByNumericValues([
+      ...filterByNumericValues,
+      inputs,
+    ]);
   };
 
   return (

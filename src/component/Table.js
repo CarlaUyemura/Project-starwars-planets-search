@@ -7,7 +7,6 @@ function Table() {
 
   const filterNumber = () => {
     const { btnClick, column, comparison, value } = inputs;
-    console.log(column, comparison, value);
     if (btnClick && comparison === 'maior que') {
       const newResult = result.filter((e) => Number(e[column]) > Number(value));
       setResult(newResult);
@@ -34,7 +33,6 @@ function Table() {
   return (
     <div>
       <Form />
-      Table
       <table>
         <thead>
           <tr>

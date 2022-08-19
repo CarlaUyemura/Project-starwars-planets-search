@@ -13,7 +13,6 @@ function Form() {
 
   return (
     <div>
-      Form
       <form>
         <input
           type="text"
