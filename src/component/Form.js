@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import TableContext from '../context/TableContext';
 
 function Form() {
@@ -9,18 +9,55 @@ function Form() {
     handleChanged,
     columnOption,
     setColumnOption,
+    filterByNumericValues,
+    setFilterByNumericValues,
+    setInputs,
+    setResult,
+    planets,
   } = useContext(TableContext);
 
   const filterColumn = () => {
     const newColumn = columnOption
       .filter((item) => inputs.column !== item);
-
     setColumnOption(
       newColumn,
     );
   };
 
+  const deleteFilter = ({ target }) => {
+    const arrayFiltred = filterByNumericValues
+      .filter(({ column }) => target.name !== column);
+    setFilterByNumericValues(arrayFiltred);
+    setResult(planets);
+  };
+
+  const deleteAllFilters = () => {
+    setFilterByNumericValues([]);
+    setColumnOption([
+      'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
+    setInputs({
+      column: 'population',
+      comparison: 'maior que',
+      value: 0,
+      btnClick: false,
+    });
+    setResult(planets);
+  };
+
   const { column, comparison, value } = inputs;
+
+  useEffect(() => {
+    if (filterByNumericValues.length > 0) {
+      filterByNumericValues.forEach((input) => {
+        setInputs({
+          column: input.column,
+          comparison: input.comparison,
+          value: input.value,
+          btnClick: true,
+        });
+      });
+    }
+  }, [filterByNumericValues.length]);
 
   return (
     <div>
@@ -40,11 +77,6 @@ function Form() {
           Coluna
           { columnOption
             .map((e, i) => <option key={ i } value={ e }>{e}</option>) }
-          {/* <option value="population">population</option>
-          <option value="orbital_period">orbital_period</option>
-          <option value="diameter">diameter</option>
-          <option value="rotation_period">rotation_period</option>
-          <option value="surface_water">surface_water</option> */}
         </select>
         <select
           data-testid="comparison-filter"
@@ -98,6 +130,28 @@ function Form() {
         </label>
         <button type="button" onClick={ () => {} }>Ordenar</button>
       </form>
+      {filterByNumericValues.map((e) => (
+
+        <p data-testid="filter" key={ e.column }>
+          {`${e.column} ${e.comparison} ${e.value}`}
+          <button
+            type="button"
+            name={ e.column }
+            onClick={ (target) => deleteFilter(target) }
+          >
+            X
+
+          </button>
+        </p>
+      ))}
+      <button
+        type="button"
+        data-testid="button-remove-filters"
+        onClick={ () => deleteAllFilters() }
+      >
+        Remover todas filtragens
+
+      </button>
     </div>
   );
 }

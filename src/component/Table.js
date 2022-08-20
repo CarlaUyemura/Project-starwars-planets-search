@@ -3,9 +3,9 @@ import TableContext from '../context/TableContext';
 import Form from './Form';
 
 function Table() {
-  const { result, inputs, setResult, setInputs } = useContext(TableContext);
-
+  const { result, inputs, setResult, setInputs, columnOption } = useContext(TableContext);
   const filterNumber = () => {
+    console.log('func filter');
     const { btnClick, column, comparison, value } = inputs;
     if (btnClick && comparison === 'maior que') {
       const newResult = result.filter((e) => Number(e[column]) > Number(value));
@@ -21,6 +21,7 @@ function Table() {
     }
     setInputs({
       ...inputs,
+      column: columnOption[0],
       btnClick: false,
     });
     return result;

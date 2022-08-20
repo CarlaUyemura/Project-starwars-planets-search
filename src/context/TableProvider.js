@@ -4,6 +4,7 @@ import TableContext from './TableContext';
 import apiPlanets from '../service/apiPlanets';
 
 function TableProvider({ children }) {
+  const [planets, setPlanets] = useState([]);
   const [result, setResult] = useState([]);
   const [filterByName, setFilterByName] = useState({ name: '' });
   const [inputs, setInputs] = useState({
@@ -16,9 +17,16 @@ function TableProvider({ children }) {
   const [columnOption, setColumnOption] = useState([
     'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
 
+  useEffect(() => {
+    if (filterByNumericValues.length === 0) {
+      setResult(planets);
+    }
+  }, [filterByNumericValues.length]);
+
   const requestApi = async () => {
     const request = await apiPlanets();
     setResult(request);
+    setPlanets(request);
   };
 
   useEffect(() => {
@@ -38,7 +46,6 @@ function TableProvider({ children }) {
     setInputs({
       ...inputs,
       [target.name]: target.value,
-      btnClick: false,
     });
   };
 
@@ -56,6 +63,7 @@ function TableProvider({ children }) {
   return (
     <TableContext.Provider
       value={ {
+        planets,
         result,
         handleName,
         filterByName,
@@ -67,6 +75,7 @@ function TableProvider({ children }) {
         columnOption,
         setColumnOption,
         filterByNumericValues,
+        setFilterByNumericValues,
       } }
     >
       {children}
