@@ -22,6 +22,7 @@ function Table() {
     setInputs({
       ...inputs,
       column: columnOption[0],
+      value: 0,
       btnClick: false,
     });
     return result;

@@ -29,6 +29,10 @@ function Form() {
       .filter(({ column }) => target.name !== column);
     setFilterByNumericValues(arrayFiltred);
     setResult(planets);
+    setColumnOption([
+      ...columnOption,
+      target.name,
+    ]);
   };
 
   const deleteAllFilters = () => {
